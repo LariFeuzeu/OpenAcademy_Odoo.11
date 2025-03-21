@@ -1,0 +1,28 @@
+<odoo>
+
+    <!-- Définition du groupe "OpenAcademy / Manager" -->
+    <record id="group_manager" model="res.groups">
+        <field name="name">OpenAcademy / Manager</field>  <!-- Nom du groupe, ici c'est le groupe des gestionnaires -->
+    </record>
+
+    <!-- Règle de sécurité "Seul le responsable peut modifier un cours" -->
+    <record id="only_responsible_can_modify" model="ir.rule">
+        <field name="name">Only Responsible can modify Course</field>  <!-- Nom de la règle -->
+        <field name="model_id" ref="model_openacademy_course"/>  <!-- La règle s'applique au modèle "course" -->
+        <field name="groups"
+               eval="[(4, ref('openacademy.group_manager'))]"/>  <!-- La règle est appliquée au groupe "group_manager" -->
+
+        <!-- Permissions pour la règle -->
+        <field name="perm_read" eval="0"/>  <!-- Pas de permission de lecture spécifiée ici -->
+        <field name="perm_write" eval="1"/>  <!-- Permet la modification si la règle est remplie -->
+        <field name="perm_create" eval="0"/>  <!-- Pas de permission de création de cours -->
+        <field name="perm_unlink" eval="1"/>  <!-- Permet la suppression des cours si la règle est remplie -->
+
+        <!-- Domaine (condition) de la règle : un utilisateur peut modifier le cours s'il est responsable -->
+        <field name="domain_force">
+            ['|', ('responsible_id','=',False),  <!-- Si le cours n'a pas de responsable -->
+            ('responsible_id','=',user.id)]  <!-- Si l'utilisateur est le responsable du cours -->
+        </field>
+    </record>
+
+</odoo>

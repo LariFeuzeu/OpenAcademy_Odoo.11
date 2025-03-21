@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="openacademy.course" id="course0">
+            <field name="name">Cours 0</field>
+            <field name="description">Description du cours 0
+            </field>
+        </record>
+        <record model="openacademy.course" id="course1">
+            <field name="name">Cours 1</field>
+            <!-- aucune description pour celui-ci -->
+        </record>
+        <record model="openacademy.course" id="course2">
+            <field name="name">Cours 2</field>
+            <field name="description">Description du cours 2</field>
+        </record>
+    </data>
+</odoo>

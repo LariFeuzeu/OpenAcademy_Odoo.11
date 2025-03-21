@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Enregistrement de la vue héritée pour ajouter le champ 'instructor' et 'session_ids' dans la vue 'form' du partenaire -->
+    <record model="ir.ui.view" id="partner_instructor_form_view">
+        <!-- Le nom de la vue, utilisé pour identifier cette vue dans Odoo -->
+        <field name="name">partner.instructor</field>
+
+        <!-- Le modèle auquel cette vue appartient. Ici, il s'agit de 'res.partner', le modèle des partenaires -->
+        <field name="model">res.partner</field>
+
+        <!-- Référence à la vue de base des partenaires. On va "hériter" de cette vue pour la personnaliser -->
+        <field name="inherit_id" ref="base.view_partner_form"/>
+
+        <!-- La structure de la vue, en XML, qui définit où et comment ajouter les nouveaux champs -->
+        <field name="arch" type="xml">
+            <!-- Nous ajoutons un nouvel onglet 'Sessions' dans l'interface 'notebook' (onglets) -->
+            <notebook position="inside">
+                <!-- Création d'un nouvel onglet dans le formulaire partenaire -->
+                <page string="Sessions">
+                    <group>
+                        <!-- Ajout du champ 'instructor' dans ce nouvel onglet -->
+                        <field name="instructor"/>
+
+                        <!-- Ajout du champ 'session_ids' pour afficher les sessions auxquelles ce partenaire a participé -->
+                        <field name="session_ids"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- Enregistrement d'une action pour ouvrir la vue des partenaires -->
+    <record model="ir.actions.act_window" id="contact_list_action">
+        <!-- Nom de l'action qui sera affiché dans l'interface utilisateur -->
+        <field name="name">Contacts</field>
+
+        <!-- Le modèle à afficher lorsque l'action est exécutée. Ici, il s'agit de 'res.partner' -->
+        <field name="res_model">res.partner</field>
+
+        <!-- Mode de vue disponible pour cette action. Ici, 'tree' pour la vue en liste et 'form' pour la vue détaillée -->
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Création d'un menu sous le menu principal pour accéder à la configuration -->
+    <menuitem id="configuration_menu" name="Configuration"
+              parent="main_openacademy_menu"/>
+
+    <!-- Création d'un sous-menu 'Contacts' sous le menu 'Configuration', qui lance l'action pour afficher la liste des contacts -->
+    <menuitem id="contact_menu" name="Contacts"
+              parent="configuration_menu"
+              action="contact_list_action"/>
+
+
+    <!-- Enregistrement d'une action de fenêtre pour afficher la liste des catégories de contact -->
+    <record model="ir.actions.act_window" id="contact_cat_list_action">
+        <!-- Nom de l'action affiché dans l'interface utilisateur -->
+        <field name="name">Contact Tags</field>
+        <!-- Modèle auquel cette action est associée. Ici, c'est le modèle 'res.partner.category' qui gère les catégories de contacts -->
+        <field name="res_model">res.partner.category</field>
+        <!-- Mode de vue de l'action : affiche à la fois la vue en arbre (liste) et la vue formulaire -->
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Définition du menu dans lequel cette action va apparaître -->
+    <menuitem id="contact_cat_menu" name="Contact Tags"
+              parent="configuration_menu"
+              action="contact_cat_list_action"/> <!-- L'action à exécuter lorsque l'utilisateur clique sur ce menu -->
+
+    <!-- Enregistrement d'une catégorie de contact 'Teacher / Level 1' -->
+    <record model="res.partner.category" id="teacher1">
+        <field name="name">Teacher / Level 1</field> <!-- Nom de la catégorie -->
+    </record>
+
+    <!-- Enregistrement d'une autre catégorie de contact 'Teacher / Level 2' -->
+    <record model="res.partner.category" id="teacher2">
+        <field name="name">Teacher / Level 2</field> <!-- Nom de la catégorie -->
+    </record>
+
+
+</odoo>
